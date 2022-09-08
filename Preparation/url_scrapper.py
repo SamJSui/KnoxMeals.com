@@ -12,7 +12,7 @@ data_dir = os.path.join(repo_dir, 'data')
 restaurant_name_link_dict = {"Restaurants" : [], "Links" : []}
 
 # Extracts all URLs on the Webpage (Yelp Listings)
-def parse_url(url):
+def scrape_yelp(url):
     http = httplib2.Http() # Instantiation
     status, response = http.request(url)
     for link in BeautifulSoup(response, 'html.parser', parse_only=SoupStrainer('a')):
@@ -36,13 +36,11 @@ if __name__ == "__main__":
     for i in range(0, 240, 10): # Iterates through each 10 page listing from 0 to 240
         yelp_knoxville_url = "https://www.yelp.com/search?find_desc=Restaurants&find_loc=Knoxville%2C+TN"
         iter_url = yelp_knoxville_url + "&start=" + str(i)
-        parse_url(iter_url)
+        scrape_yelp(iter_url)
     t1 = time.time() # URL PARSING LAP
     print("FINISHED PARSING IN {0:.2f}".format(t1-t0))
 
     # OUTPUT
     df = pd.DataFrame.from_dict(restaurant_name_link_dict)
-    output_dir = os.path.join(data_dir, "knoxville_restaurant_data.csv")
+    output_dir = os.path.join(data_dir, "knoxville_restaurant_links.csv")
     df.to_csv(output_dir, index=False)
-    t2 = time.time()
-    print("SCRAPER FINISHED IN {0:.2f}".format(t2 - t0)) # PROGRAM TIMER FINISH
