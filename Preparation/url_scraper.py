@@ -28,7 +28,7 @@ def scrape_yelp(url):
                         restaurant_name not in restaurant_name_link_dict['Restaurants']:
                     # Appending to Dict
                     restaurant_name_link_dict["Restaurants"].append(restaurant_name)
-                    restaurant_name_link_dict["Links"].append("https://www.yelp.com"+restaurant_url)
+                    restaurant_name_link_dict["Links"].append("https://www.yelp.com"+restaurant_url_split[0])
 
 if __name__ == "__main__":
     # PARSING
