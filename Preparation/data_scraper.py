@@ -5,21 +5,23 @@ import pandas as pd
 import os
 import time
 
+# PATHING
 curr_dir = os.getcwd()
 repo_dir = os.path.join(curr_dir, os.pardir)
 data_dir = os.path.join(repo_dir, 'data')
-output_dir = os.path.join(data_dir, 'reviews')
+output_dir = os.path.join(data_dir, 'reviews.csv')
 links_csv_path = os.path.join(data_dir, 'knoxville_restaurant_links.csv')
 
+# DATAFRAME
+restaurant_links = pd.read_csv(links_csv_path)
 review_cols = ['Restaurant ID', 'Author Name', 'Author City', 'Review Date', 'Review Rating', 'Review Content']
 df_reviews = pd.DataFrame(columns=review_cols)
-restaurant_links = pd.read_csv(links_csv_path)
 
 def scrape_reviews(restaurant_ID, url):
-    NOT_EMPTY = True
+    base_size = df_reviews.size
     query_index = 0  # ?start=(query_index)
-    while NOT_EMPTY:  # REPEATS UNTIL NO REVIEWS LEFT
-        NOT_EMPTY = False
+    while True:  # REPEATS UNTIL NO REVIEWS LEFT
+        print(f"{query_index + 10} Reviews for {restaurant_ID}")
         r = requests.get(url + "?start=" + str(query_index))
         soup = BeautifulSoup(r.content, 'html.parser')
         review_cards = soup.find_all('li', {'class': 'margin-b5__09f24__pTvws border-color--default__09f24__NPAKY'})
@@ -35,7 +37,6 @@ def scrape_reviews(restaurant_ID, url):
                 review_date = test.find_all('span', {'class': 'css-chan6m'})
                 # print(f"AUTHOR: {author.text}")
                 # print(f"CITY: {city.text}")
-                NOT_EMPTY = True
                 for rating, date, content in zip(review_rating, review_date, review_content):
                     # print(f"Rating: {rating['aria-label']}, Date: {date.text}, Content: {content.text}")
                     rating_stars = float(rating['aria-label'].split()[0])
@@ -43,7 +44,11 @@ def scrape_reviews(restaurant_ID, url):
             except AttributeError:
                 continue
         df_reviews.to_csv(output_dir, index=False)
-        print(f"{query_index+10} Reviews for {restaurant_ID}")
+        adjusted_size = df_reviews.size
+        if adjusted_size == base_size:
+            break
+        else:
+            base_size = adjusted_size
         query_index += 10
 
 if __name__ == "__main__":

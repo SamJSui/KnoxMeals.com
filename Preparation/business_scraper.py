@@ -22,11 +22,15 @@ def scrape_business():
             'offset': OFFSET
         }
         response_json = requests.get(url, headers=headers, params=url_params).json()
-        response = response_json['businesses']
         if 'error' in response_json.keys():
             break
+        response = response_json['businesses']
+        for info in response:
+            print(info)
         print(response)
         OFFSET += 1
     t1 = time.time()
     print(f"Done in {0:.2f}".format(t1-t0))
 
+if __name__ == '__main__':
+    scrape_business()
