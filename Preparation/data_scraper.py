@@ -1,6 +1,7 @@
 from zyte_smartproxy_selenium import webdriver
-from bs4 import BeautifulSoup
+from selenium.webdriver.chrome.service import Service
 import requests
+from bs4 import BeautifulSoup
 import pandas as pd
 import os
 import time
@@ -9,7 +10,7 @@ import time
 curr_dir = os.getcwd()
 repo_dir = os.path.join(curr_dir, os.pardir)
 data_dir = os.path.join(repo_dir, 'data')
-output_dir = os.path.join(data_dir, 'test.csv')
+output_dir = os.path.join(data_dir, 'reviews.csv')
 links_csv_path = os.path.join(data_dir, 'knoxville_restaurant_links.csv')
 
 # DATAFRAME
@@ -17,14 +18,36 @@ restaurant_links = pd.read_csv(links_csv_path)
 review_cols = ['Restaurant ID', 'Author Name', 'Author City', 'Review Date', 'Review Rating', 'Review Content']
 df_reviews = pd.DataFrame(columns=review_cols)
 
+# CHROMEDRIVER
+def proxy():
+    chromedriver = '../ChromeDriver/chromedriver.exe'
+    service = Service(executable_path=chromedriver)
+    browser = webdriver.Chrome(spm_options={'spm_apikey': ''}, service=service)
+    return browser
+HEADLESS_PROXY = "localhost:3128"
+webdriver.DesiredCapabilities.CHROME['proxy'] = {
+    "httpProxy": HEADLESS_PROXY,
+    "sslProxy": HEADLESS_PROXY,
+    "proxyType": "MANUAL",
+}
+
 def scrape_reviews(restaurant_ID, url):
-    headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36"}
     base_size = df_reviews.size
     query_index = 0  # ?start=(query_index)
     while True:  # REPEATS UNTIL NO REVIEWS LEFT
+        # proxy_host = "proxy.zyte.com"
+        # proxy_port = "8011"
+        # proxy_auth = ":"  # Make sure to include ':' at the end
+        # proxies = {"https": "http://{}@{}:{}/".format(proxy_auth, proxy_host, proxy_port),
+        #            "http": "http://{}@{}:{}/".format(proxy_auth, proxy_host, proxy_port)}
         print(f"{query_index + 10} Reviews for {restaurant_ID}")
-        r = requests.get(url + "?start=" + str(query_index), headers=headers)
-        soup = BeautifulSoup(r.content, 'html.parser')
+        inc_url = url + "?start=" + str(query_index)
+        cert_path = '../zyte-proxy-ca.crt'
+        browser = proxy()
+        browser.get(inc_url)
+        content = browser.page_source
+        # r = requests.get(inc_url, proxies=proxies, verify=cert_path)
+        soup = BeautifulSoup(content, 'html.parser')
         review_cards = soup.find_all('li', {'class': 'margin-b5__09f24__pTvws border-color--default__09f24__NPAKY'})
         for test in review_cards:
             try:
@@ -41,20 +64,16 @@ def scrape_reviews(restaurant_ID, url):
                     df_reviews.loc[len(df_reviews.index)] = [restaurant_ID, author.text, city.text, date.text, rating_stars, content.text]
             except AttributeError:
                 continue
+        browser.close()
         df_reviews.to_csv(output_dir, index=False)
         adjusted_size = df_reviews.size
-        time.sleep(3)
         if adjusted_size == base_size:
             break
         else:
             base_size = adjusted_size
-        r.cookies.clear()
         query_index += 10
 
 if __name__ == "__main__":
-    # test_link = restaurant_links['Links'][0]
-    # test_name = restaurant_links['Restaurants'][0]
-    # scrape_reviews(test_name, test_link)
     t0 = time.perf_counter()
     for restaurant_name, restaurant_link in zip(restaurant_links['Restaurants'], restaurant_links['Links']):
         scrape_reviews(restaurant_name, restaurant_link)

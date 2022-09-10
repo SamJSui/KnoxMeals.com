@@ -4,12 +4,12 @@ import pandas as pd
 import os
 import time
 
-# Navigation
+# NAVIGATION
 curr_dir = os.getcwd()
 repo_dir = os.path.abspath(os.path.join(curr_dir, os.pardir))
 data_dir = os.path.join(repo_dir, 'data')
 
-restaurant_name_link_dict = {"Restaurants" : [], "Links" : []}
+restaurant_name_link_dict = {"Restaurants": [], "Links" :[]}
 
 # Extracts all URLs on the Webpage (Yelp Listings)
 def scrape_yelp(url):
