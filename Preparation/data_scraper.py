@@ -1,4 +1,4 @@
-import datetime
+from zyte_smartproxy_selenium import webdriver
 from bs4 import BeautifulSoup
 import requests
 import pandas as pd
@@ -9,7 +9,7 @@ import time
 curr_dir = os.getcwd()
 repo_dir = os.path.join(curr_dir, os.pardir)
 data_dir = os.path.join(repo_dir, 'data')
-output_dir = os.path.join(data_dir, 'reviews.csv')
+output_dir = os.path.join(data_dir, 'test.csv')
 links_csv_path = os.path.join(data_dir, 'knoxville_restaurant_links.csv')
 
 # DATAFRAME
@@ -18,11 +18,12 @@ review_cols = ['Restaurant ID', 'Author Name', 'Author City', 'Review Date', 'Re
 df_reviews = pd.DataFrame(columns=review_cols)
 
 def scrape_reviews(restaurant_ID, url):
+    headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36"}
     base_size = df_reviews.size
     query_index = 0  # ?start=(query_index)
     while True:  # REPEATS UNTIL NO REVIEWS LEFT
         print(f"{query_index + 10} Reviews for {restaurant_ID}")
-        r = requests.get(url + "?start=" + str(query_index))
+        r = requests.get(url + "?start=" + str(query_index), headers=headers)
         soup = BeautifulSoup(r.content, 'html.parser')
         review_cards = soup.find_all('li', {'class': 'margin-b5__09f24__pTvws border-color--default__09f24__NPAKY'})
         for test in review_cards:
@@ -30,10 +31,7 @@ def scrape_reviews(restaurant_ID, url):
                 author = test.find('a', {'class': 'css-1m051bw'})
                 city = test.find('span', {'class': 'css-qgunke'})
                 review_content = test.find_all('span', {'class': 'raw__09f24__T4Ezm', 'lang': 'en'})
-                review_rating = test.find_all('div',
-                                              {
-                                                  'class': 'five-stars__09f24__mBKym five-stars--regular__09f24__DgBNj display--inline-block__09f24__fEDiJ border-color--default__09f24__NPAKY'
-                                              })
+                review_rating = test.find_all('div', {'class': 'five-stars__09f24__mBKym five-stars--regular__09f24__DgBNj display--inline-block__09f24__fEDiJ border-color--default__09f24__NPAKY'})
                 review_date = test.find_all('span', {'class': 'css-chan6m'})
                 # print(f"AUTHOR: {author.text}")
                 # print(f"CITY: {city.text}")
@@ -45,15 +43,24 @@ def scrape_reviews(restaurant_ID, url):
                 continue
         df_reviews.to_csv(output_dir, index=False)
         adjusted_size = df_reviews.size
+        time.sleep(3)
         if adjusted_size == base_size:
             break
         else:
             base_size = adjusted_size
+        r.cookies.clear()
         query_index += 10
 
 if __name__ == "__main__":
     # test_link = restaurant_links['Links'][0]
     # test_name = restaurant_links['Restaurants'][0]
     # scrape_reviews(test_name, test_link)
+    t0 = time.perf_counter()
     for restaurant_name, restaurant_link in zip(restaurant_links['Restaurants'], restaurant_links['Links']):
         scrape_reviews(restaurant_name, restaurant_link)
+    t1 = time.perf_counter()
+    t2 = t1 - t0
+    print("\nTime:")
+    print(f"Done in {0:.2f} seconds".format(t2))
+    print(f"Done in {0:.2f} minutes".format(t2 / 60))
+    print(f"Done in {0:.2f} hours".format(t2/3600))
