@@ -1,0 +1,24 @@
+.navbar-text {
+    color: #ededed !important;
+}
+
+.navbar-text:hover {
+    color: #ffffff !important;
+}
+
+.navbar-text:active {
+    color: #ededed !important;
+}
+
+.navbar-text:focus {
+    color: #ededed;
+}
+
+.navbar-toggler, .collapsed {
+    color: #ffb466 !important;
+    border: var(--bs-border-width) solid var(--bs-navbar-toggler-border-color) !important;
+}
+
+.navbar-toggler-icon {
+    background-image: var(--bs-navbar-toggler-icon-bg) !important;
+}
