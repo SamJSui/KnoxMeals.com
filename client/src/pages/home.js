@@ -9,16 +9,16 @@ import CreateFooter from '../components/Footer/Footer';
 
 function HomePage() {
 	return (
-		<Container fluid className='px-auto'>
+		<Container fluid className=''>
             <Row>
                 <Col className='px-0'><CreateNavBar /></Col>
             </Row>
             <Row className="mb-3">
                 <Col className='px-0'><CreateHero /></Col>
             </Row>
-            <Row className="mb-3">
-                <Col className='px-4'><ShowRestaurants /></Col>
-                <Col></Col>
+            <Row className="mb-4 h-100">
+                <Col md={6} className='px-4'><ShowRestaurants /></Col>
+                <Col md={6} className='px-4'><ShowRestaurants /></Col>
             </Row>
             <Row>
                 <CreateFooter />

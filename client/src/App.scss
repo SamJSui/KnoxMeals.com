@@ -1,2 +1,8 @@
+$theme-colors: (
+    'primary': #ff8f1a,
+);
+
+/* import bootstrap to set changes */
+
 @import 'mdb-react-ui-kit/dist/css/mdb.min.css';
-@import './components/Navbar/custom.scss';
+@import '~bootstrap/scss/bootstrap';

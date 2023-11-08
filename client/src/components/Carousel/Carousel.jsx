@@ -1,4 +1,6 @@
 import { Container, Col, Carousel } from 'react-bootstrap';
+import KnoxvilleBanner from '../../images/knoxville-stephen-ellis.jpg'
+import './Carousel.style.css'
 
 function ShowRestaurants() {
 
@@ -13,34 +15,20 @@ function ShowRestaurants() {
             <Col>
             <Carousel>
                 <Carousel.Item>
-                    <iframe 
+                    <img 
                         className="d-block w-100" 
-                        src="https://www.yelp.com/biz/stock-and-barrel-knoxville" 
+                        src={KnoxvilleBanner}
                         alt="..."
-                        style={{
-                            height: '40em',
-                        }}
                         title="First Restaurant"
                     />
-                    <Carousel.Caption>
-                        <h3>Image 1</h3>
-                        <p>Description for the first image.</p>
-                    </Carousel.Caption>
                 </Carousel.Item>
                 <Carousel.Item>
                     <iframe 
                         className="d-block w-100" 
-                        src="https://www.yelp.com/biz/the-brass-pearl-knoxville?osq=Brass+Pearl" 
+                        src='https://www.tripadvisor.com/Restaurant_Review-g55138-d4877551-Reviews-Stock_Barrel-Knoxville_Tennessee.html'
                         alt="..."
-                        style={{
-                            height: '40em',
-                        }}
                         title="First Restaurant"
                     />
-                    <Carousel.Caption>
-                        <h3>Image 2</h3>
-                        <p>Description for the second image.</p>
-                    </Carousel.Caption>
                 </Carousel.Item>
             </Carousel>
             </Col>
