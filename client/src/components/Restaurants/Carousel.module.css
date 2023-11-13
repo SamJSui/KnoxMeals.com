@@ -1,0 +1,38 @@
+/* CustomCarousel.css */
+
+/* Style the indicators */
+.carousel-indicators {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+  }
+  
+  /* Style each indicator */
+  .carousel-indicators li {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    background-color: #ccc;
+    border-radius: 50%;
+  }
+  
+  /* Style the active indicator */
+  .carousel-indicators li.active {
+    background-color: #333;
+  }
+  
+  /* Additional styles for specific cases */
+  .carousel-indicators li:hover {
+    background-color: #555;
+  }
+
+.carousel {
+    width: 100%;
+    height: 100%;
+  }
+
+img, iframe {
+    height: 70vh;
+}

@@ -18,7 +18,7 @@ function CreateHero() {
             }}
         >
             <div className='mask' style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-            <div className='d-flex justify-content-center align-items-center h-100'>
+            <div className='d-flex justify-content-center align-items-center h-75'>
             <div className='text-white'>
                 <Row>
                     <Col><h1 className='mb-3'>KnoxMeals</h1></Col>
