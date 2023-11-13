@@ -1,5 +1,9 @@
+# Project
+.env
+
 # Python
 *.pkl
+__pycache__
 
 # Logs
 logs

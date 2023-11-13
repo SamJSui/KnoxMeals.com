@@ -1,1 +1,1 @@
-from . import query_handler
+from .query_handler import QueryHandler

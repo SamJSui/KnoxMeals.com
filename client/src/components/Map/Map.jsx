@@ -5,8 +5,9 @@ import './Map.css'
 
 
 function RenderMap() {
+    const google_api_key = process.env.REACT_APP_GOOGLE_API;
     const { isLoaded } = useLoadScript({
-        googleMapsApiKey: "AIzaSyA20WbsW5nL4eH--PxwwtgmJFR6YK8kyZQ",
+        googleMapsApiKey: google_api_key,
     });
 
     /**
@@ -17,7 +18,7 @@ function RenderMap() {
 
     navigator.geolocation.getCurrentPosition(
         (position) => {
-            console.log(position.coords.latitude, position.coords.longitude);
+            ;
         }
     );
 

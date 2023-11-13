@@ -46,7 +46,6 @@ function RestaurantsCarousel() {
                 activeIndex={carousel[0]} 
                 onSelect={handleSelect} 
                 pause={'hover'}
-                controls={false}
             >
                 <Carousel.Item>
                     <img 
