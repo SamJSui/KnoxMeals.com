@@ -1,35 +1,45 @@
-from flask import Flask, request
-from flask_restful import Api, Resource, reqparse
-import pickle
-import os
+from .postgres import retrieve_restaurants
 
-todos = {}
+from flask import request, jsonify
+from flask_restful import Api, Resource, reqparse
+
+import pickle
+import sklearn
+import html
+
+restaurants = retrieve_restaurants()
+
+try:
+    model_file = open('model/model.pkl', 'rb')
+    model_ = pickle.load(model_file)
+    model_file.close()
+except OSError:
+    print("{} COULD NOT OPEN FILE: {}".format(__name__, 'model.pkl'))
+
+try:
+    vectorizer_file = open('model/vectorizer.pkl', 'rb')
+    vectorizer_ = pickle.load(vectorizer_file)
+    vectorizer_file.close()
+except OSError:
+    print("{} COULD NOT OPEN FILE: {}".format(__name__, 'vectorizer.pkl'))
 
 class QueryHandler(Resource):
   
     def __init__(self):
-        print(os.listdir())
-        try:
-            model_file = open('model/model.pkl', 'rb')
-            self.model_ = pickle.load(model_file)
-            model_file.close()
-        except OSError:
-            print("COULD NOT OPEN FILE:", 'model.pkl')
-
-
-        try:
-            vectorizer_file = open('model//vectorizer.pkl', 'rb')
-            self.vectorizer_ = pickle.load(vectorizer_file)
-            vectorizer_file.close()
-        except OSError:
-            print("COULD NOT OPEN FILE:", 'vectorizer.pkl')
+        pass
         
-    def get(self, todo_id):
-        vectorized = self.vectorizer_.transform([todo_id])
-        predictions = self.model_.predict_proba(vectorized)
-        return {'todo': str(len(predictions[0]))}
+    def get(self):
+        query = request.json.get('query')
+        num_recommendations = 7
+        sanitized = html.escape(query)
+        vectorized = vectorizer_.transform([sanitized])
+        predictions = (model_.predict_proba(vectorized)[0]).argsort()[::-1][:num_recommendations]
+        return {'restaurants': [restaurants[i] for i in predictions]}
 
-    def post(self, todo_id):
-        print(request.form['data'])
-        todos[todo_id] = request.form['data']
-        return {todo_id: todos[todo_id]}
+    def post(self):
+        query = request.json.get('query')
+        num_recommendations = 7
+        sanitized = html.escape(query)
+        vectorized = vectorizer_.transform([sanitized])
+        predictions = (model_.predict_proba(vectorized)[0]).argsort()[::-1][:num_recommendations]
+        return {'restaurants': [restaurants[i] for i in predictions]}

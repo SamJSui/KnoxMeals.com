@@ -1,10 +1,9 @@
-import React from 'react';
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
+import React, { useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import knoxville from '../../images/knoxville-stephen-ellis.jpg'
+import InputForm from './Form'
 
 function CreateHero() {
     return (
@@ -26,24 +25,9 @@ function CreateHero() {
                 <Row>
                     <Col><h4 className='mb-3'>Let Knoxville treat you!</h4></Col>
                 </Row>
-                <Row xs={12} md={12}>
+                <Row>
                     <Col>
-                        <Card>
-                            <Card.Body>
-                            <Form>
-                            <Form.Group className="mb-3">
-                                <Form.Label 
-                                    style={{ 
-                                        textAlign: 'left'
-                                    }}
-                                >
-                                    What would you like to eat?
-                                </Form.Label>
-                                <Form.Control type="input" placeholder="I want a burger..." />
-                            </Form.Group>
-                            </Form>
-                            </Card.Body>
-                        </Card>
+                        <InputForm />
                     </Col>
                 </Row>
             </div>
