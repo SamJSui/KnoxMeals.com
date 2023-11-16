@@ -14,8 +14,8 @@ function RenderMap() {
      * map[0] = Map Center
      * map[1] = Set Map Center
      */
-    const { map } = React.useContext(StoreContext);
-    const [mapCenter, setMapCenter] = map;
+    const { storeMap } = React.useContext(StoreContext);
+    const [mapCenter, ] = storeMap;
 
     navigator.geolocation.getCurrentPosition(
         (position) => {

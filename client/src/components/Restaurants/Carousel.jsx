@@ -9,15 +9,15 @@ function RestaurantsCarousel() {
      * carousel[0] = Carousel Index
      * carousel[1] = Set Carousel Index
      */
-    const { carousel } = React.useContext(StoreContext);
-    const [carouselIndex, setCarouselIndex] = carousel;
+    const { storeCarousel } = React.useContext(StoreContext);
+    const [carouselIndex, setCarouselIndex] = storeCarousel;
 
     /**
      * map[0] = Map Center
      * map[1] = Set Map Center
      */
-    const { map } = React.useContext(StoreContext);
-    const [mapCenter, setMapCenter] = map;
+    const { storeMap } = React.useContext(StoreContext);
+    const [, setMapCenter] = storeMap;
 
     const handleSelect = (selectedIndex, e) => {
         setCarouselIndex(selectedIndex);

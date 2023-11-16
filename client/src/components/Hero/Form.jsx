@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { StoreContext } from '../../utils/store';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 
 function InputForm(props) {
-    const [query, setQuery] = useState('');
-    const [restaurants, setRestaurants] = useState([]);
+    const { storeQuery } = React.useContext(StoreContext);
+    const [query, setQuery] = storeQuery;
 
-    useEffect(() => {
+    const { storeRestaurants } = React.useContext(StoreContext);
+    const [restaurants, setRestaurants] = storeRestaurants;
+
+    React.useEffect(() => {
         if (restaurants) {
             console.log(restaurants);
         }
