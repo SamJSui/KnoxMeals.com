@@ -15,6 +15,7 @@ function RenderMap() {
      * map[1] = Set Map Center
      */
     const { map } = React.useContext(StoreContext);
+    const [mapCenter, setMapCenter] = map;
 
     navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -33,10 +34,10 @@ function RenderMap() {
             ) : (
                 <GoogleMap
                     mapContainerClassName="map-container"
-                    center={map[0]}
+                    center={mapCenter}
                     zoom={10}
                 >
-                    <Marker id='map-marker' position={map[0]} />
+                    <Marker id='map-marker' position={mapCenter} />
                 </GoogleMap>
             )}
         </div>

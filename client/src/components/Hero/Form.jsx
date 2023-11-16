@@ -21,7 +21,7 @@ function InputForm(props) {
         e.preventDefault();
         
         try {
-            const response = axios.post('http://localhost:5000/api/', { query })
+            const response = axios.post('/api', { query })
                 .then(res => setRestaurants(res.data));
         } 
         catch (error) {

@@ -1,18 +1,17 @@
 from flask import Flask, send_from_directory
-from flask_restful import Api, Resource, reqparse
+from flask_restful import Api
 from api import QueryHandler
-from flask_cors import CORS  # Import the CORS class
+# from flask_cors import CORS  # Import the CORS class
 
-app = Flask(__name__, static_url_path='', static_folder='client/build')
+app = Flask(__name__)
 api = Api(app)
-CORS(app)  # Enable CORS for all routes
+# CORS(app)  # Enable CORS for all routes
 
-class HelloWorld(Resource):
-    def get(self):
-        return {'hello': 'world'}
+@app.route('/test', methods=['GET', 'POST'])
+def test():
+    return 'healthcheck'
 
-api.add_resource(HelloWorld, '/')
-api.add_resource(QueryHandler, '/api/')
+api.add_resource(QueryHandler, '/api')
 
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')

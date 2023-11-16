@@ -10,17 +10,19 @@ function RestaurantsCarousel() {
      * carousel[1] = Set Carousel Index
      */
     const { carousel } = React.useContext(StoreContext);
+    const [carouselIndex, setCarouselIndex] = carousel;
 
     /**
      * map[0] = Map Center
      * map[1] = Set Map Center
      */
     const { map } = React.useContext(StoreContext);
+    const [mapCenter, setMapCenter] = map;
 
     const handleSelect = (selectedIndex, e) => {
-        carousel[1](selectedIndex);
+        setCarouselIndex(selectedIndex);
         updateExternalDivContent(selectedIndex);
-        map[1]({lat: 40.730610, lng: -73.935242});
+        setMapCenter({lat: 40.730610, lng: -73.935242});
     };
 
     const updateExternalDivContent = (index) => {
@@ -43,14 +45,14 @@ function RestaurantsCarousel() {
                 <p>This is some text on the left side of the grid.</p>
             </div>
             <Carousel 
-                activeIndex={carousel[0]} 
+                activeIndex={carouselIndex} 
                 onSelect={handleSelect} 
                 pause={'hover'}
             >
                 <Carousel.Item>
                     <img 
                         className="d-block w-100" 
-                        src={KnoxvilleBanner}
+                        src={'https://d1ralsognjng37.cloudfront.net/5217652f-fdc4-4f40-a200-0e8f5a0921ad.webp'}
                         alt="..."
                         title="First Restaurant"
                     />

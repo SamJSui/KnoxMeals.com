@@ -12,8 +12,8 @@ function CreateNavBar() {
             <Navbar.Collapse id="responsive-navbar-nav" className='navbar-btn'>
                 <Nav className="ms-auto text-light">
                     <Nav.Link href="#home" className='navbar-text'>Home</Nav.Link>
-                    <Nav.Link href="#about" className='navbar-text'>About</Nav.Link>
-                    <Nav.Link href="#docs" className='navbar-text'>Docs</Nav.Link>
+                    {/* <Nav.Link href="#about" className='navbar-text'>About</Nav.Link>
+                    <Nav.Link href="#docs" className='navbar-text'>Docs</Nav.Link> */}
                 </Nav>
             </Navbar.Collapse>
         </Container>
