@@ -2,15 +2,15 @@ import React from 'react';
 import CreateNavBar from '../components/Navbar/Navbar';
 import CreateHero from '../components/Hero/Hero';
 import CreateFooter from '../components/Footer/Footer';
-import Restaurants from '../components/Restaurants/Restaurants';
+import Results from '../containers/Results/Results';
 
 function HomePage() {
     return (
         <>
-            <CreateNavBar />
-            <CreateHero />
-            <Restaurants />
-            <CreateFooter />
+        <CreateNavBar />
+        <CreateHero />
+        <Results />
+        <CreateFooter />
         </>
     );
 }

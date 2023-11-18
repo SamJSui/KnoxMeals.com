@@ -1,11 +1,12 @@
 from .postgres import retrieve_restaurants
 
-from flask import request, jsonify
-from flask_restful import Api, Resource, reqparse
+from flask import jsonify
+from flask_restful import Resource, reqparse
 
 import pickle
-import sklearn
 import html
+import json
+import sklearn
 
 restaurants = retrieve_restaurants()
 
@@ -29,17 +30,11 @@ class QueryHandler(Resource):
         pass
         
     def get(self):
-        query = request.json.get('query')
+        parser = reqparse.RequestParser()
+        parser.add_argument('query', type=str, location='args')
+        args = parser.parse_args()
         num_recommendations = 7
-        sanitized = html.escape(query)
+        sanitized = html.escape(args['query'])
         vectorized = vectorizer_.transform([sanitized])
         predictions = (model_.predict_proba(vectorized)[0]).argsort()[::-1][:num_recommendations]
-        return {'restaurants': [restaurants[i] for i in predictions]}
-
-    def post(self):
-        query = request.json.get('query')
-        num_recommendations = 7
-        sanitized = html.escape(query)
-        vectorized = vectorizer_.transform([sanitized])
-        predictions = (model_.predict_proba(vectorized)[0]).argsort()[::-1][:num_recommendations]
-        return {'restaurants': [restaurants[i] for i in predictions]}
+        return jsonify({'restaurants': [restaurants[i] for i in predictions]})

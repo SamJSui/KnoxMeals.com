@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import knoxville from '../../images/knoxville-stephen-ellis.jpg'
-import InputForm from './Form'
+import InputForm from '../Form/Form'
 
 function CreateHero() {
     return (

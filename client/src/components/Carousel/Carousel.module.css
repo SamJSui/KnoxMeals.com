@@ -1,23 +1,19 @@
-.map {
-    width: 100%;
-    height: 100%;
-}
-
-.map-container {
+img {
     width: auto;
     height: 50vh; /* Set a maximum height for larger screens */
 }
 
 @media (max-width: 768px) {
-    .map-container {
+    img {
         width: auto;
         height: 40vh; /* Set a height for medium screens */
     }
 }
 
 @media (max-width: 480px) {
-    .map-container {
+    img {
         width: auto;
         height: 40vh; /* Set a height for medium screens */
     }
 }
+
