@@ -29,7 +29,8 @@ def retrieve_restaurants() -> list:
         'phone':        restaurant[7], 
         'lat':          restaurant[8],
         'long':         restaurant[9],
-        'website':      restaurant[10]
+        'website':      restaurant[10],
+        'img':          restaurant[11],
     } for restaurant in sorted(query, key=lambda x: x[0]) ] # Does not return by sorted ID's apparently
     
     return restaurant_info

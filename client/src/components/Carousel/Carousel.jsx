@@ -53,12 +53,13 @@ function RestaurantsCarousel() {
                 activeIndex={carouselIndex} 
                 onSelect={handleSelect} 
                 pause={'hover'}
+                interval={null}
             >
                 {restaurants.map((item) => (
-                    <Carousel.Item key={item.id}>
+                    <Carousel.Item>
                     <img
                         className="d-block w-100"
-                        src={`https://via.placeholder.com/800x400?text=${item.content}`}
+                        src={`${item.img}`}
                         alt={`Slide ${item.id}`}
                     />
                     </Carousel.Item>
