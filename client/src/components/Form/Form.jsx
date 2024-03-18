@@ -13,29 +13,46 @@ function InputForm() {
     const [query, setQuery] = storeQuery;
 
     const { storeRestaurants } = React.useContext(StoreContext);
-    const [restaurants, setRestaurants] = storeRestaurants;
+    const { storeRestaurantRef } = React.useContext(StoreContext);
     
+    const [restaurants, setRestaurants] = storeRestaurants;
+    const restaurantRef = storeRestaurantRef;
     const { storeRestaurantName } = React.useContext(StoreContext);
     const { storeRestaurantDesc } = React.useContext(StoreContext);
     const { storeRestaurantTag } = React.useContext(StoreContext);
+    const { storeRestaurantImg } = React.useContext(StoreContext);
+    const { storeRestaurantReviewCount } = React.useContext(StoreContext);
+    const { storeRestaurantRating } = React.useContext(StoreContext);
+    const { storeRestaurantPhone } = React.useContext(StoreContext);
+    const { storeRestaurantAddress } = React.useContext(StoreContext);
+    const { storeMap } = React.useContext(StoreContext);
+
     const [, setRestaurantName] = storeRestaurantName; 
     const [, setRestaurantDesc] = storeRestaurantDesc; 
-    const [, setRestaurantTag] = storeRestaurantTag; 
-
-    const { storeMap } = React.useContext(StoreContext);
+    const [, setRestaurantTag] = storeRestaurantTag;
+    const [, setRestaurantImg] = storeRestaurantImg; 
+    const [, setRestaurantReviewCount] = storeRestaurantReviewCount; 
+    const [, setRestaurantRating] = storeRestaurantRating;
+    const [, setRestaurantPhone] = storeRestaurantPhone; 
+    const [, setRestaurantAddress] = storeRestaurantAddress; 
     const [, setMapCenter] = storeMap;
 
-    React.useEffect(() => {
+
+    React.useEffect((e) => {
         setCarouselIndex(0);
         const selectedRestaurant = restaurants[0];
-
+        
         setRestaurantName(selectedRestaurant['name']);
         setRestaurantDesc(selectedRestaurant['description']);
         setRestaurantTag(selectedRestaurant['tag']);
-
+        setRestaurantImg(selectedRestaurant['img']);
+        setRestaurantReviewCount(selectedRestaurant['review_count']);
+        setRestaurantRating(selectedRestaurant['rating']);
+        setRestaurantPhone(selectedRestaurant['phone']);
+        setRestaurantAddress(selectedRestaurant['address']);
         setMapCenter({
             lat: selectedRestaurant['lat'], 
-            lng: selectedRestaurant['long']
+            lng: selectedRestaurant['long'],
         });
     }, [
         setCarouselIndex, 
@@ -43,6 +60,11 @@ function InputForm() {
         setRestaurantName, 
         setRestaurantDesc, 
         setRestaurantTag,
+        setRestaurantImg,
+        setRestaurantReviewCount,
+        setRestaurantRating,
+        setRestaurantPhone,
+        setRestaurantAddress,
         setMapCenter,
     ]);
 
@@ -64,6 +86,7 @@ function InputForm() {
         catch (error) {
             console.error('Error fetching data:', error);
         }
+        restaurantRef.current.scrollIntoView();
     };
 
     return (

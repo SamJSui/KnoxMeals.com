@@ -6,11 +6,7 @@ import './Carousel.module.css'
 function RestaurantsCarousel() {
 
     const { storeCarousel } = React.useContext(StoreContext);
-    const [carouselIndex, setCarouselIndex] = storeCarousel;
-
     const { storeRestaurants } = React.useContext(StoreContext);
-    const [restaurants, ] = storeRestaurants;
-
     const { storeRestaurantName } = React.useContext(StoreContext);
     const { storeRestaurantDesc } = React.useContext(StoreContext);
     const { storeRestaurantTag } = React.useContext(StoreContext);
@@ -19,7 +15,9 @@ function RestaurantsCarousel() {
     const { storeRestaurantPhone } = React.useContext(StoreContext);
     const { storeRestaurantAddress } = React.useContext(StoreContext);
     const { storeMap } = React.useContext(StoreContext);
-
+    
+    const [carouselIndex, setCarouselIndex] = storeCarousel;
+    const [restaurants, ] = storeRestaurants;
     const [, setRestaurantName] = storeRestaurantName; 
     const [, setRestaurantDesc] = storeRestaurantDesc; 
     const [, setRestaurantTag] = storeRestaurantTag;
@@ -53,7 +51,7 @@ function RestaurantsCarousel() {
                 activeIndex={carouselIndex} 
                 onSelect={handleSelect} 
                 pause={'hover'}
-                interval={null}
+                interval={10_000}
             >
                 {restaurants.map((item) => (
                     <Carousel.Item>

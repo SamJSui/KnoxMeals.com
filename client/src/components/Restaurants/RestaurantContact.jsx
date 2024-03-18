@@ -23,7 +23,7 @@ function RestaurantContact() {
         </h4>
         <h4>Phone Number: {restaurantPhone}</h4>
         <h4>Address:</h4>
-        <h6>{restaurantAddress}</h6>
+        <h6><a href={`https://maps.google.com/?q=${restaurantAddress}`}>{restaurantAddress}</a></h6>
         </>
     );  
 };
